@@ -3,16 +3,10 @@ import 'package:flutter/material.dart';
 
 import 'login.dart';
 
-class Welcome extends StatefulWidget {
+class Welcome extends StatelessWidget {
   const Welcome({Key? key, required this.title}) : super(key: key);
 
   final String title;
-
-  @override
-  State<Welcome> createState() => _WelcomeState();
-}
-
-class _WelcomeState extends State<Welcome> {
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +16,7 @@ class _WelcomeState extends State<Welcome> {
           Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("images/main_aidant.jpeg"),
+              image: AssetImage("images/hands_helper.jpeg"),
               fit: BoxFit.cover),
           ),
         ),
@@ -31,7 +25,7 @@ class _WelcomeState extends State<Welcome> {
             height: MediaQuery.of(context).size.height * 0.5,
             child: const ImageIcon(
               color: Colors.white,
-                AssetImage("images/Vector.png")
+                AssetImage("images/eye_close.png")
           )
           ),
           const Center(
