@@ -1,5 +1,6 @@
 import 'package:be_my_guide/config/colors_theme.dart';
-import 'package:be_my_guide/views/welcome.dart';
+import 'package:be_my_guide/views/form_travel_view.dart';
+import 'package:be_my_guide/views/welcome_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         primaryColor: ColorsTheme.appColor,
       ),
-      home: const Welcome(title: 'Be My Guide'),
+      home: const FormTravel(),
     );
   }
 }
