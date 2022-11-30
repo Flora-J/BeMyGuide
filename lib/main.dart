@@ -1,3 +1,4 @@
+import 'package:be_my_guide/config/colors_theme.dart';
 import 'package:be_my_guide/views/welcome.dart';
 import 'package:flutter/material.dart';
 
@@ -12,10 +13,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Be my Guide',
       theme: ThemeData(
         fontFamily: 'Roboto Mono',
-        primaryColor: const Color.fromARGB(255, 245, 245, 245),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        primaryColor: ColorsTheme.appColor,
       ),
       home: const Welcome(title: 'Be My Guide'),
     );
