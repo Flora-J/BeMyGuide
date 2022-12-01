@@ -1,4 +1,5 @@
 import 'package:be_my_guide/config/colors_theme.dart';
+import 'package:be_my_guide/get_api.dart';
 import 'package:be_my_guide/views/welcome.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         primaryColor: ColorsTheme.appColor,
       ),
-      home: const Welcome(title: 'Be My Guide'),
+      home: GetApi()//const Welcome(title: 'Be My Guide'),
     );
   }
 }
