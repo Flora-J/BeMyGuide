@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../config/colors_theme.dart';
 
-Widget button(BuildContext context, String text, Widget Function() page) {
+Widget buttonGeneral(BuildContext context, String text, Widget Function() page) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
         primary: ColorsTheme.buttonColor, elevation: 10),
@@ -15,9 +15,22 @@ Widget button(BuildContext context, String text, Widget Function() page) {
     },
     child: Text(
       text,
+      semanticsLabel: text,
       style: const TextStyle(
         color: Colors.white
       ),
     ),
+  );
+}
+
+Widget buttonFormForDateAndHours(BuildContext context, String text, Future<void> Function()) {
+  return ElevatedButton(
+    style: ElevatedButton.styleFrom(
+      primary: ColorsTheme.buttonColor, elevation: 10),
+    onPressed: () => Function(),
+    child: Text(
+      text,
+      semanticsLabel: text,
+    )
   );
 }

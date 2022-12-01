@@ -1,9 +1,15 @@
+import 'package:be_my_guide/config/colors_theme.dart';
+import 'package:be_my_guide/views/profil_view.dart';
 import 'package:be_my_guide/widgets/bottom_bar.dart';
+import 'package:be_my_guide/widgets/buttons.dart';
+import 'package:be_my_guide/widgets/input_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 enum Gender {
-  Femme,
-  Homme
+  femme,
+  homme,
+  indifferent
 }
 
 class FormTravel extends StatefulWidget {
@@ -15,7 +21,7 @@ class FormTravel extends StatefulWidget {
 
 class _FormTravelState extends State<FormTravel> {
 
-  Gender? _gender = Gender.Femme;
+  Gender? _gender = Gender.femme;
 
   TextEditingController timeinput = TextEditingController();
   TextEditingController dateinput = TextEditingController();
@@ -24,6 +30,53 @@ class _FormTravelState extends State<FormTravel> {
 
   final _formKey = GlobalKey<FormState>();
 
+  DateTime currentDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? date = await showDatePicker(
+        context: context,
+        initialDate: currentDate,
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2100),
+        currentDate: DateTime.now(),
+        initialEntryMode: DatePickerEntryMode.calendar,
+        initialDatePickerMode: DatePickerMode.day,
+        fieldLabelText: dateinput.toString(),
+    );
+    // conversion de la date en string et en format dd/mm/yyyy
+    if (date != null && date != currentDate) {
+      String formattedDate = DateFormat('dd/MM/yyy').format(currentDate);
+      setState(() {
+        dateinput.text = formattedDate.toString();
+        currentDate = date;
+      });
+    }
+  }
+
+  Future<void> _selectTime(BuildContext context) async {
+    TimeOfDay? time = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+        hourLabelText: timeinput.toString(),
+        builder: (BuildContext context, Widget? child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(
+                alwaysUse24HourFormat: true,
+                accessibleNavigation: true
+            ),
+            child: child!,
+          );
+        }
+    );
+    //conversion de l'heure en string et en format HH:mm
+    if (time != null) {
+      DateTime parsedTime =DateFormat.jm().parse(time.format(context).toString());
+      String formattedTime = DateFormat('HH:mm').format(parsedTime);
+      setState(() {
+        timeinput.text = formattedTime;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +86,103 @@ class _FormTravelState extends State<FormTravel> {
         child: Form(
             key: _formKey,
             child: Column(
-              
-            )),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                inputText(context, startStation, "Départ"),
+                const SizedBox(height: 20),
+                inputText(context, arrivalStation, "Arrivée"),
+                const SizedBox(height: 20),
+                inputText(context, dateinput, "Date"),
+                buttonFormForDateAndHours(context, "Choisissez une date", () => _selectDate(context)),
+                const SizedBox(height: 20),
+                inputText(context, timeinput, "Horaire"),
+                buttonFormForDateAndHours(context, "Choisissez une heure", () => _selectTime(context)),
+                const SizedBox(height: 20),
+                const Text(
+                   "Choisis le genre de ton accompagnant :",
+                   semanticsLabel: "Choisis le genre de ton accompagnant :",
+                   strutStyle: StrutStyle(fontSize: 22),
+                  textAlign: TextAlign.center,
+                  softWrap: false,
+                 ),
+                 Row(
+                   mainAxisSize: MainAxisSize.min,
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+                     Flexible(
+                       child: ListTile(
+                         contentPadding: EdgeInsets.symmetric(horizontal: 1),
+                         title: const Text(
+                           "Femme",
+                           semanticsLabel: "Femme",
+                           softWrap: false,
+                         ),
+                         leading: Radio<Gender>(
+                           value: Gender.femme,
+                           groupValue: _gender,
+                           onChanged: (Gender? value) {
+                             setState(() {
+                               _gender = value;
+                             });
+                           },
+                           activeColor: ColorsTheme.buttonColor,
+                           visualDensity: VisualDensity.compact,
+                         ),
+                         dense: true,
+                       ),
+                     ),
+                     Flexible(
+                       child: ListTile(
+                         contentPadding: EdgeInsets.symmetric(horizontal: 1),
+                         title: const Text(
+                           "Homme",
+                           semanticsLabel: "Homme",
+                           softWrap: false,
+                         ),
+                         leading: Radio<Gender>(
+                           value: Gender.homme,
+                           groupValue: _gender,
+                           onChanged: (Gender? value) {
+                             setState(() {
+                               _gender = value;
+                             });
+                           },
+                           activeColor: ColorsTheme.buttonColor,
+                           visualDensity: VisualDensity.compact,
+                         ),
+                         dense: true,
+                       ),
+                     ),
+                     Flexible(
+                       flex: 2,
+                       child: ListTile(
+                         contentPadding: EdgeInsets.symmetric(horizontal: 1),
+                         title: const Text(
+                           "Indifférent",
+                           semanticsLabel: "Indifférent",
+                           softWrap: false,
+                         ),
+                         leading: Radio<Gender>(
+                           value: Gender.indifferent,
+                           groupValue: _gender,
+                           onChanged: (Gender? value) {
+                             setState(() {
+                               _gender = value;
+                             });
+                           },
+                           activeColor: ColorsTheme.buttonColor,
+                           visualDensity: VisualDensity.compact,
+                         ),
+                         dense: true,
+                       ),
+                     ),
+                   ],
+                 ),
+                SizedBox(height: 40,),
+                buttonGeneral(context, "Valider", () => Profil())
+              ],
+            )
+        ),
       ),
     );
   }

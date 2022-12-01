@@ -1,5 +1,6 @@
 import 'package:be_my_guide/config/colors_theme.dart';
 import 'package:be_my_guide/views/my_travels_view.dart';
+import 'package:be_my_guide/views/reward_view.dart';
 import 'package:be_my_guide/views/welcome_view.dart';
 import 'package:flutter/material.dart';
 
@@ -9,13 +10,15 @@ Widget bottomNavigatorBar(BuildContext context) {
   int index = 0;
 
   return BottomNavigationBar(
+    selectedItemColor: ColorsTheme.buttonColor,
+      selectedIconTheme: const IconThemeData(color: ColorsTheme.buttonColor),
       unselectedItemColor: ColorsTheme.appColor,
       currentIndex: index,
       items: const [
         BottomNavigationBarItem(
             icon: ImageIcon(
-                color: Colors.black,
-                AssetImage("images/eye_close.png")
+              AssetImage("images/eye_close.png"),
+              color: Colors.black,
             ),
             label: "Accueil"),
         BottomNavigationBarItem(
@@ -23,6 +26,13 @@ Widget bottomNavigatorBar(BuildContext context) {
               color: Colors.black,
             ),
           label: "Mes trajets"
+        ),
+        BottomNavigationBarItem(
+            icon: ImageIcon(
+                AssetImage("images/reward.png"),
+                color: Colors.black
+            ),
+            label: "Récompenses"
         ),
         BottomNavigationBarItem(
             icon: Icon(Icons.person_outline,
@@ -40,6 +50,9 @@ Widget bottomNavigatorBar(BuildContext context) {
             Navigator.push(context, MaterialPageRoute(builder: (BuildContext) => MyTravel()));
             break;
           case 2:
+            Navigator.push(context, MaterialPageRoute(builder: (BuildContext) => Reward()));
+            break;
+          case 3:
             Navigator.push(context, MaterialPageRoute(builder: (BuildContext) => Profil()));
             break;
         }
