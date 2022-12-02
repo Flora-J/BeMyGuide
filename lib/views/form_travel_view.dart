@@ -48,6 +48,17 @@ class _FormTravelState extends State<FormTravel> {
         initialEntryMode: DatePickerEntryMode.calendar,
         initialDatePickerMode: DatePickerMode.day,
         fieldLabelText: dateinput.toString(),
+        builder: (BuildContext context, child) {
+          return Theme(
+              data: ThemeData.light().copyWith(
+                primaryColor: ColorsTheme.appColor,
+                colorScheme: const ColorScheme.light(primary: ColorsTheme.buttonColor),
+                buttonTheme: const ButtonThemeData(
+                    textTheme: ButtonTextTheme.normal
+                ),
+              ),
+              child: child!);
+        }
     );
     // conversion de la date en string et en format dd/mm/yyyy
     if (date != null && date != currentDate) {
@@ -70,7 +81,15 @@ class _FormTravelState extends State<FormTravel> {
                 alwaysUse24HourFormat: true,
                 accessibleNavigation: true
             ),
-            child: child!,
+            child: Theme(
+                data: ThemeData.light().copyWith(
+                  primaryColor: ColorsTheme.appColor,
+              colorScheme: const ColorScheme.light(primary: ColorsTheme.buttonColor),
+              buttonTheme: const ButtonThemeData(
+                  textTheme: ButtonTextTheme.normal
+              ),
+            ),
+              child: child!),
           );
         },
     );

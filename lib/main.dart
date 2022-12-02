@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         primaryColor: ColorsTheme.appColor,
       ),
-      home: const FormTravel(),
+      home: const Welcome(title: "Bienvenue"),
     );
   }
 }
