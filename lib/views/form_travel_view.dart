@@ -32,23 +32,28 @@ class _FormTravelState extends State<FormTravel> {
 
   DateTime currentDate = DateTime.now();
 
+  @override
+  void initState() {
+    dateinput.text = "";
+    timeinput.text = "";
+    super.initState();
+  }
+
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime? date = await showDatePicker(
+     DateTime? date = await showDatePicker(
         context: context,
         initialDate: currentDate,
         firstDate: DateTime.now(),
         lastDate: DateTime(2100),
-        currentDate: DateTime.now(),
         initialEntryMode: DatePickerEntryMode.calendar,
         initialDatePickerMode: DatePickerMode.day,
         fieldLabelText: dateinput.toString(),
     );
     // conversion de la date en string et en format dd/mm/yyyy
     if (date != null && date != currentDate) {
-      String formattedDate = DateFormat('dd/MM/yyy').format(currentDate);
+      String formattedDate = DateFormat('dd/MM/yyyy').format(date);
       setState(() {
-        dateinput.text = formattedDate.toString();
-        currentDate = date;
+        dateinput.text = formattedDate;
       });
     }
   }
@@ -57,8 +62,9 @@ class _FormTravelState extends State<FormTravel> {
     TimeOfDay? time = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.now(),
-        hourLabelText: timeinput.toString(),
-        builder: (BuildContext context, Widget? child) {
+        hourLabelText: "Heure",
+        minuteLabelText: "Minute",
+        builder: (BuildContext context, child) {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(
                 alwaysUse24HourFormat: true,
@@ -66,11 +72,11 @@ class _FormTravelState extends State<FormTravel> {
             ),
             child: child!,
           );
-        }
+        },
     );
     //conversion de l'heure en string et en format HH:mm
     if (time != null) {
-      DateTime parsedTime =DateFormat.jm().parse(time.format(context).toString());
+      DateTime parsedTime =DateFormat.Hm().parse(time.format(context).toString());
       String formattedTime = DateFormat('HH:mm').format(parsedTime);
       setState(() {
         timeinput.text = formattedTime;
@@ -102,8 +108,8 @@ class _FormTravelState extends State<FormTravel> {
                    "Choisis le genre de ton accompagnant :",
                    semanticsLabel: "Choisis le genre de ton accompagnant :",
                    strutStyle: StrutStyle(fontSize: 22),
-                  textAlign: TextAlign.center,
-                  softWrap: false,
+                   textAlign: TextAlign.center,
+                   softWrap: false,
                  ),
                  Row(
                    mainAxisSize: MainAxisSize.min,
@@ -111,7 +117,7 @@ class _FormTravelState extends State<FormTravel> {
                    children: [
                      Flexible(
                        child: ListTile(
-                         contentPadding: EdgeInsets.symmetric(horizontal: 1),
+                         contentPadding: const EdgeInsets.symmetric(horizontal: 1),
                          title: const Text(
                            "Femme",
                            semanticsLabel: "Femme",
@@ -133,7 +139,7 @@ class _FormTravelState extends State<FormTravel> {
                      ),
                      Flexible(
                        child: ListTile(
-                         contentPadding: EdgeInsets.symmetric(horizontal: 1),
+                         contentPadding: const EdgeInsets.symmetric(horizontal: 1),
                          title: const Text(
                            "Homme",
                            semanticsLabel: "Homme",
@@ -156,7 +162,7 @@ class _FormTravelState extends State<FormTravel> {
                      Flexible(
                        flex: 2,
                        child: ListTile(
-                         contentPadding: EdgeInsets.symmetric(horizontal: 1),
+                         contentPadding: const EdgeInsets.symmetric(horizontal: 1),
                          title: const Text(
                            "Indifférent",
                            semanticsLabel: "Indifférent",
@@ -178,7 +184,7 @@ class _FormTravelState extends State<FormTravel> {
                      ),
                    ],
                  ),
-                SizedBox(height: 40,),
+                const SizedBox(height: 40),
                 buttonGeneral(context, "Valider", () => Profil())
               ],
             )
