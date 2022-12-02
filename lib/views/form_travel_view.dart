@@ -49,7 +49,11 @@ class _FormTravelState extends State<FormTravel> {
         initialDatePickerMode: DatePickerMode.day,
         fieldLabelText: dateinput.toString(),
         builder: (BuildContext context, child) {
-          return Theme(
+          return MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                accessibleNavigation: true
+              ),
+              child: Theme(
               data: ThemeData.light().copyWith(
                 primaryColor: ColorsTheme.appColor,
                 colorScheme: const ColorScheme.light(primary: ColorsTheme.buttonColor),
@@ -57,7 +61,7 @@ class _FormTravelState extends State<FormTravel> {
                     textTheme: ButtonTextTheme.normal
                 ),
               ),
-              child: child!);
+              child: child!));
         }
     );
     // conversion de la date en string et en format dd/mm/yyyy
