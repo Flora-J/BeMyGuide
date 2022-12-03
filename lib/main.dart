@@ -32,8 +32,9 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Roboto Mono',
         visualDensity: VisualDensity.adaptivePlatformDensity,
         primaryColor: ColorsTheme.appColor,
+        colorScheme: const ColorScheme.light(primary: ColorsTheme.buttonColor),
       ),
-      home: const Welcome(title: "Bienvenue"),
+      home: const FormTravel(),
     );
   }
 }

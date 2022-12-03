@@ -42,7 +42,7 @@ class Welcome extends StatelessWidget {
                 SizedBox(
                     width: MediaQuery.of(context).size.width / 1.2,
                     height: MediaQuery.of(context).size.height / 12,
-                    child: buttonGeneral(context, "Rejoignez-nous", () => LoginView())),
+                    child: buttonGeneral(context, "Rejoignez-nous", () => const LoginView())),
                 const SizedBox(height: 10,),
                 const Text("Vous avez déja un compte ? Connectez-vous ",
                   style: TextStyle(

@@ -4,8 +4,11 @@ Widget inputText(BuildContext context, TextEditingController controller, String 
   return TextFormField(
     controller: controller,
     decoration: InputDecoration(
-        border: const OutlineInputBorder(),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10))
+        ),
         labelText: label,
+      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10)
     ),
   );
 }

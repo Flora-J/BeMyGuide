@@ -2,6 +2,7 @@ import 'package:be_my_guide/config/colors_theme.dart';
 import 'package:be_my_guide/views/profil_view.dart';
 import 'package:be_my_guide/widgets/bottom_bar.dart';
 import 'package:be_my_guide/widgets/buttons.dart';
+import 'package:be_my_guide/widgets/container.dart';
 import 'package:be_my_guide/widgets/input_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -53,15 +54,7 @@ class _FormTravelState extends State<FormTravel> {
               data: MediaQuery.of(context).copyWith(
                 accessibleNavigation: true
               ),
-              child: Theme(
-              data: ThemeData.light().copyWith(
-                primaryColor: ColorsTheme.appColor,
-                colorScheme: const ColorScheme.light(primary: ColorsTheme.buttonColor),
-                buttonTheme: const ButtonThemeData(
-                    textTheme: ButtonTextTheme.normal
-                ),
-              ),
-              child: child!));
+              child: child!);
         }
     );
     // conversion de la date en string et en format dd/mm/yyyy
@@ -85,21 +78,13 @@ class _FormTravelState extends State<FormTravel> {
                 alwaysUse24HourFormat: true,
                 accessibleNavigation: true
             ),
-            child: Theme(
-                data: ThemeData.light().copyWith(
-                  primaryColor: ColorsTheme.appColor,
-              colorScheme: const ColorScheme.light(primary: ColorsTheme.buttonColor),
-              buttonTheme: const ButtonThemeData(
-                  textTheme: ButtonTextTheme.normal
-              ),
-            ),
-              child: child!),
+            child: child!
           );
         },
     );
     //conversion de l'heure en string et en format HH:mm
     if (time != null) {
-      DateTime parsedTime =DateFormat.Hm().parse(time.format(context).toString());
+      DateTime parsedTime =DateFormat.Hm().parse(time.format(context).toString()); // a ne pas modifier sinon l'heure s'affiche pas
       String formattedTime = DateFormat('HH:mm').format(parsedTime);
       setState(() {
         timeinput.text = formattedTime;
@@ -117,98 +102,100 @@ class _FormTravelState extends State<FormTravel> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                inputText(context, startStation, "Départ"),
-                const SizedBox(height: 20),
-                inputText(context, arrivalStation, "Arrivée"),
-                const SizedBox(height: 20),
-                inputText(context, dateinput, "Date"),
-                buttonFormForDateAndHours(context, "Choisissez une date", () => _selectDate(context)),
-                const SizedBox(height: 20),
-                inputText(context, timeinput, "Horaire"),
-                buttonFormForDateAndHours(context, "Choisissez une heure", () => _selectTime(context)),
-                const SizedBox(height: 20),
-                const Text(
-                   "Choisis le genre de ton accompagnant :",
-                   semanticsLabel: "Choisis le genre de ton accompagnant :",
-                   strutStyle: StrutStyle(fontSize: 22),
-                   textAlign: TextAlign.center,
-                   softWrap: false,
+                containerForm(
+                    inputText(context, startStation, "Départ")
+                ),
+                const SizedBox(height: 10),
+                containerForm(
+                    inputText(context, arrivalStation, "Arrivée")
+                ),
+                const SizedBox(height: 10),
+                containerForm(
+                    inputText(context, dateinput, "Date")
+                ),
+                buttonFormForDateAndHours("Choisissez une date", () => _selectDate(context)),
+                containerForm(
+                    inputText(context, timeinput, "Horaire")
+                ),
+                buttonFormForDateAndHours("Choisissez une heure", () => _selectTime(context)),
+                Container(
+                  padding: const EdgeInsets.only(left: 40, right: 40),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.grey,
+                    ),
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: const Text(
+                     "Choisis le genre de ton accompagnant :",
+                     semanticsLabel: "Choisis le genre de ton accompagnant :",
+                     style: TextStyle(
+                         fontWeight: FontWeight.w500,
+                         fontSize: 18,
+                         color: Colors.green
+                     ),
+                     textAlign: TextAlign.center,
+                   ),
+                ),
+                 ListTile(
+                   title: const Text(
+                     "Femme",
+                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w200),
+                     semanticsLabel: "Femme",
+                     softWrap: false,
+                   ),
+                   leading: Radio<Gender>(
+                     value: Gender.femme,
+                     groupValue: _gender,
+                     onChanged: (Gender? value) {
+                       setState(() {
+                         _gender = value;
+                       });
+                     },
+                     activeColor: ColorsTheme.buttonColor,
+                     visualDensity: VisualDensity.compact,
+                   ),
                  ),
-                 Row(
-                   mainAxisSize: MainAxisSize.min,
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                   children: [
-                     Flexible(
-                       child: ListTile(
-                         contentPadding: const EdgeInsets.symmetric(horizontal: 1),
-                         title: const Text(
-                           "Femme",
-                           semanticsLabel: "Femme",
-                           softWrap: false,
-                         ),
-                         leading: Radio<Gender>(
-                           value: Gender.femme,
-                           groupValue: _gender,
-                           onChanged: (Gender? value) {
-                             setState(() {
-                               _gender = value;
-                             });
-                           },
-                           activeColor: ColorsTheme.buttonColor,
-                           visualDensity: VisualDensity.compact,
-                         ),
-                         dense: true,
-                       ),
-                     ),
-                     Flexible(
-                       child: ListTile(
-                         contentPadding: const EdgeInsets.symmetric(horizontal: 1),
-                         title: const Text(
-                           "Homme",
-                           semanticsLabel: "Homme",
-                           softWrap: false,
-                         ),
-                         leading: Radio<Gender>(
-                           value: Gender.homme,
-                           groupValue: _gender,
-                           onChanged: (Gender? value) {
-                             setState(() {
-                               _gender = value;
-                             });
-                           },
-                           activeColor: ColorsTheme.buttonColor,
-                           visualDensity: VisualDensity.compact,
-                         ),
-                         dense: true,
-                       ),
-                     ),
-                     Flexible(
-                       flex: 2,
-                       child: ListTile(
-                         contentPadding: const EdgeInsets.symmetric(horizontal: 1),
-                         title: const Text(
-                           "Indifférent",
-                           semanticsLabel: "Indifférent",
-                           softWrap: false,
-                         ),
-                         leading: Radio<Gender>(
-                           value: Gender.indifferent,
-                           groupValue: _gender,
-                           onChanged: (Gender? value) {
-                             setState(() {
-                               _gender = value;
-                             });
-                           },
-                           activeColor: ColorsTheme.buttonColor,
-                           visualDensity: VisualDensity.compact,
-                         ),
-                         dense: true,
-                       ),
-                     ),
-                   ],
+                 ListTile(
+                   title: const Text(
+                     "Homme",
+                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w200),
+                     semanticsLabel: "Homme",
+                     softWrap: false,
+                   ),
+                   leading: Radio<Gender>(
+                     value: Gender.homme,
+                     groupValue: _gender,
+                     onChanged: (Gender? value) {
+                       setState(() {
+                         _gender = value;
+                       });
+                     },
+                     activeColor: ColorsTheme.buttonColor,
+                     visualDensity: VisualDensity.compact,
+                   ),
                  ),
-                const SizedBox(height: 40),
-                buttonGeneral(context, "Valider", () => Profil())
+                 ListTile(
+                   title: const Text(
+                     "Indifférent",
+                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w200),
+                     semanticsLabel: "Indifférent",
+                     softWrap: false,
+                   ),
+                   leading: Radio<Gender>(
+                     value: Gender.indifferent,
+                     groupValue: _gender,
+                     onChanged: (Gender? value) {
+                       setState(() {
+                         _gender = value;
+                       });
+                     },
+                     activeColor: ColorsTheme.buttonColor,
+                     visualDensity: VisualDensity.compact,
+                   ),
+                 ),
+                const SizedBox(height: 20),
+                buttonGeneral(context, "Valider", () => const Profil())
               ],
             )
         ),
